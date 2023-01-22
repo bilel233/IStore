@@ -1,5 +1,11 @@
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
-        new Fenetre(); /* on affiche dans la fonction main la fenetre
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new Fenetre();
+            }
+        });
     }
 }
