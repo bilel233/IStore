@@ -1,0 +1,67 @@
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import org.json.JSONObject;
+public class Compte {
+
+    public static void login(String login, char[] password) {
+        try {
+
+            URL url = new URL("http://example.com/login");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("login", login);
+            requestBody.put("password", new String(password));
+
+
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(connection.getOutputStream());
+            outputStreamWriter.write(requestBody.toString());
+            outputStreamWriter.flush();
+
+
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                // Login successful
+                // Read the response body
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+
+                System.out.println(response.toString());
+            } else {
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+
+                System.out.println(response.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args) {
+        String login = "example";
+        char[] password = "password".toCharArray();
+        login(login, password);
+    }
+}
