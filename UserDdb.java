@@ -10,7 +10,7 @@ public class UserDdb {
 
     public void createUser(String email, String password) {
         try (Connection conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/istore", "root", "");
+                "jdbc:mysql://localhost:8889/istore", "root", "");
              PreparedStatement statement = conn.prepareStatement(INSERT_SQL)) {
             statement.setString(1, email);
             statement.setString(2, hashPassword(password));
