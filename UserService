@@ -1,0 +1,32 @@
+import java.util.ArrayList;
+import java.util.List;
+public class UserService {
+    private List<String> whitelist = new ArrayList<>();
+
+    public UserService() {
+        whitelist.add("user1@mail.com");
+        whitelist.add("user2@mail.com");
+        /* on rajoute d'autre mail à la liste blanche */
+        whitelist.add("user3@mail.com");
+
+    }
+
+    public boolean createUser(String email, String username, String password, String role) {
+        if (!whitelist.contains(email)) {
+            return false;
+        }
+        // on  hashe le mot de passe sha 256
+        Password.hashPassword(password); // appel de la fonction de hashage
+        /* enregistrer l'user dans la base de donnees
+
+         */
+        User user = new User(1,email,username,password,role);
+
+        return true;
+    }
+
+}
+
+
+
+
