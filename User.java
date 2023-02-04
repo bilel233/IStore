@@ -1,3 +1,9 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class User {
     /* creation d'une classe User avec les champs suivants : username , password, email
 
@@ -20,6 +26,15 @@ public class User {
        this.role=role;
 
     }
+    /* on ajoute un nouveau constructeur sans le mot de passe */
+    public User(int id,String email,String username,String role)
+    {
+        this.id = id;
+        this.email=email;
+        this.username=username;
+        this.role=role;
+    }
+
     /* getters et setters pour les champs de l'utilisateur */
     public String getUsername()
     {
@@ -72,5 +87,38 @@ public class User {
     {
         user = null;
     }
+
+    public static User getUserById(int userId) throws SQLException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/istore", "root", "");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM users WHERE id = " + userId);
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String email = resultSet.getString("email");
+                String username = resultSet.getString("username");
+                String role = resultSet.getString("role");
+                return new User(id, email, username, role);
+            } else {
+                return null;
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+
 }
 
