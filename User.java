@@ -1,8 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class User {
     /* creation d'une classe User avec les champs suivants : username , password, email
@@ -74,6 +70,9 @@ public class User {
     {
         return role;
     }
+    public boolean isAdmin() {
+        return "admin".equals(this.role); /* controler les autorisations d'acces au fonctionnalites dans l'application */
+    }
     public void setRole(String role)
     {
         this.role = role;
@@ -129,6 +128,49 @@ public class User {
         } else {
             // afficher un message d'erreur
             System.out.println("Vous n'avez pas les autorisations nécessaires pour mettre à jour cet utilisateur.");
+        }
+    }
+    public void deleteUser(User currentUser, User targetUser) {
+        if (currentUser.getId() == targetUser.getId() || currentUser.isAdmin()) {
+
+            // Code de suppression de l'utilisateur
+            /* on etablit une connction a la base de donnees */
+            Connection connection = null;
+            try
+            {
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/istore","root","");
+            }catch (SQLException e){
+                System.out.println("Erreur de connexion a la base de donnees : "+ e.getMessage());
+            }
+            /* executez une requete DELETE pour supprimer l'utilisateur
+
+             */
+            try {
+                String sql = "DELETE FROM Users WHERE email = ? AND role = ?";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, "user@mail.com");
+                statement.setString(2, "user");
+                int rowsDeleted = statement.executeUpdate();
+                if (rowsDeleted > 0) {
+                    System.out.println("L'utilisateur a été supprimé avec succès.");
+                } else {
+                    System.out.println("Erreur: L'utilisateur n'a pas pu être supprimé.");
+                }
+            }
+            catch(SQLException e) {
+                System.out.println("Erreur d'execution de la requete DELETE : " + e.getMessage());
+            }finally{
+                try{
+                    connection.close();
+
+                }catch(SQLException e){
+                    System.out.println("Erreur de fermeture de la connextion : "+e.getMessage());
+                }
+            }
+        } else {
+            // Refuser la suppression et afficher un message d'erreur
+
+            System.out.println("Vous n'êtes pas autorisé à supprimer cet utilisateur.");
         }
     }
 
