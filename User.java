@@ -118,6 +118,19 @@ public class User {
             }
         }
     }
+    public void updateUser(User currentUser, User updatedUser) {
+        if (currentUser.getId() == updatedUser.getId() || currentUser.getRole().equals("administrator")) {
+            // autoriser la mise à jour de l'utilisateur
+            setPassword(password);
+            setEmail(email);
+            setId(id);
+            setRole(role);
+            setUsername(username);
+        } else {
+            // afficher un message d'erreur
+            System.out.println("Vous n'avez pas les autorisations nécessaires pour mettre à jour cet utilisateur.");
+        }
+    }
 
 
 }
