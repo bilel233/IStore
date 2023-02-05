@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 public class CreationCompte {
@@ -13,12 +14,21 @@ public class CreationCompte {
     }
 
     public static void createAccount(String email, String password) {
+
         if (!isEmailAllowed(email)) {
             System.out.println("Error: Email address not allowed");
             return;
         }
         //Creation du compte
-        System.out.println("Account created successfully");
-    }
+        try {
+            /*  creation d'un utilisateur
 
+             */
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"une erreur est survenue :" + e.getMessage(),"Erreur",JOptionPane.ERROR_MESSAGE);
+        }
+        System.out.println("Account created successfully");
+
+
+    }
 }
