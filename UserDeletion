@@ -1,0 +1,40 @@
+import java.sql.*;
+public class UserDeletion {
+    /* on regroupe le code dans une classe main */
+    public static void main(String[] args)
+    {
+        /* on etablit une connction a la base de donnees */
+        Connection connection = null;
+        try
+        {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/istore","root","");
+        }catch (SQLException e){
+            System.out.println("Erreur de connexion a la base de donnees : "+ e.getMessage());
+        }
+        /* executez une requete DELETE pour supprimer l'utilisateur
+
+         */
+        try {
+            String sql = "DELETE FROM Users WHERE email = ? AND role = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "user@mail.com");
+            statement.setString(2, "user");
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("L'utilisateur a été supprimé avec succès.");
+            } else {
+                System.out.println("Erreur: L'utilisateur n'a pas pu être supprimé.");
+            }
+        }
+        catch(SQLException e) {
+            System.out.println("Erreur d'execution de la requete DELETE : " + e.getMessage());
+        }finally{
+            try{
+                connection.close();
+
+            }catch(SQLException e){
+                System.out.println("Erreur de fermeture de la connextion : "+e.getMessage());
+            }
+        }
+    }
+}
