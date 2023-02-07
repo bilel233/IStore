@@ -61,7 +61,7 @@ public class Main {
 
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/istore", "root", "")) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
-            statement.setString(1, email);
+            statement.setString(1, em);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String storedPassword = resultSet.getString("password");
@@ -77,5 +77,8 @@ public class Main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
     }
 
