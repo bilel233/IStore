@@ -4,22 +4,22 @@ public class User {
     /* creation d'une classe User avec les champs suivants : username , password, email
 
      */
-    private String username;
-    private String password;
-    private String email;
-    private String role;
-    private int id;
+    private static String username;
+    private static String password;
+    private static String email;
+    private static String role;
+    private static int id;
 
     /* constructeur pour creer un nouvel utilisateur avec des valeur specifiees
 
      */
     public User(int id,String email,String username,String password,String role)
     {
-       this.id = id;
-       this.email = email;
-       this.username=username;
-       this.password=password;
-       this.role=role;
+        this.id = id;
+        this.email = email;
+        this.username=username;
+        this.password=password;
+        this.role=role;
 
     }
     /* on ajoute un nouveau constructeur sans le mot de passe */
@@ -36,34 +36,34 @@ public class User {
     {
         return username;
     }
-    public void setUsername(String username)
+    public static void setUsername(String username)
     {
-        this.username = username;
+        User.username = username;
     }
     public String getPassword()
     {
         return password;
     }
 
-    public void setPassword(String password)
+    public static void setPassword(String password)
     {
-        this.password =password;
+        User.password =password;
     }
     public String getEmail()
     {
         return email;
     }
-    public void setEmail(String email)
+    public static void setEmail(String email)
     {
-        this.email=email;
+        User.email=email;
     }
     public int getId()
     {
         return id;
     }
-    public void setId(int id)
+    public static void setId(int id)
     {
-        this.id = id;
+        User.id = id;
     }
 
     public String getRole()
@@ -73,9 +73,9 @@ public class User {
     public boolean isAdmin() {
         return "admin".equals(this.role); /* controler les autorisations d'acces au fonctionnalites dans l'application */
     }
-    public void setRole(String role)
+    public static void setRole(String role)
     {
-        this.role = role;
+        User.role = role;
     }
     /* utilisation d'une methode de supression pour supprimer l'utilisateur
     Reamrque : ceci est un exemple simple et generiqsue,
@@ -95,7 +95,7 @@ public class User {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/istore", "root", "");
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM users WHERE id = " + userId);
+            resultSet = statement.executeQuery("SELECT * FROM Users WHERE id = " + userId);
             if (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String email = resultSet.getString("email");
@@ -117,7 +117,7 @@ public class User {
             }
         }
     }
-    public void updateUser(User currentUser, User updatedUser) {
+    public static void  updateUser(User currentUser, User updatedUser) {
         if (currentUser.getId() == updatedUser.getId() || currentUser.getRole().equals("administrator")) {
             // autoriser la mise à jour de l'utilisateur
             setPassword(password);
@@ -130,7 +130,7 @@ public class User {
             System.out.println("Vous n'avez pas les autorisations nécessaires pour mettre à jour cet utilisateur.");
         }
     }
-    public void deleteUser(User currentUser, User targetUser) {
+    public static  void deleteUser(User currentUser, User targetUser) {
         if (currentUser.getId() == targetUser.getId() || currentUser.isAdmin()) {
 
             // Code de suppression de l'utilisateur
@@ -173,6 +173,8 @@ public class User {
             System.out.println("Vous n'êtes pas autorisé à supprimer cet utilisateur.");
         }
     }
+
+
 
 
 }
