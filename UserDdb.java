@@ -5,22 +5,22 @@ import java.sql.SQLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-public class UserDdb {
-    private static final String INSERT_SQL = "INSERT INTO users (email, password) VALUES (?, ?)";
+public  class  UserDdb {
+    private static final String INSERT_SQL = "INSERT INTO Users (email, password) VALUES (?, ?)";
 
-    public void createUser(String email, String password) {
+    public static void db(String email, String password) {
         try (Connection conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:8889/istore", "root", "");
              PreparedStatement statement = conn.prepareStatement(INSERT_SQL)) {
             statement.setString(1, email);
-            statement.setString(2, hashPassword(password));
+            statement.setString(2, Password.hashPassword(password)); // appel de la fonction hashPassword
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String hashPassword(String password) {
+   /* public static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(password.getBytes());
@@ -30,5 +30,5 @@ public class UserDdb {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 }
