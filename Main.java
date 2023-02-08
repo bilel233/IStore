@@ -1,6 +1,5 @@
 
 import javax.swing.*;
-import java.sql.*;
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +10,8 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-
+        User u = new User(1,"user1@mail.com","user","password","utilisateur");
+        User a = new User(1,"user1@mail.com","user","password","administrateur");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new Fenetre();
@@ -51,7 +51,7 @@ public class Main {
             frame.setSize(300,200);
             frame.setVisible(true);
         }
-// on implemente la la classe Login avec exception d'erreur
+// on implemente  la classe Login avec exception d'erreur
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Entrez votre email: ");
@@ -59,25 +59,43 @@ public class Main {
         System.out.println("Entrez votre mot de passe: ");
         String pass = sc.nextLine();
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/istore", "root", "")) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
-            statement.setString(1, em);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String storedPassword = resultSet.getString("password");
-                // On Compare le mot de passe saisi par l'utilisateur avec celui stocké dans la base de données
-                if (storedPassword.equals(pass)) {
-                    System.out.println("Connexion réussie!");
-                } else {
-                    System.out.println("Mot de passe incorrect.");
-                }
-            } else {
-                System.out.println("Aucun compte trouvé avec cet email.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+       /* test de la fonction login */
+            Login.log();
+
+            /* test de la fonction db */
+           UserDdb.db("user@mail.com","password");
+
+
+           /* hasshage du password */
+          Password.hashPassword("password");
+
+        /* on verifie si l'email est autorisée */
+
+        boolean email1 = CreationCompte.isEmailAllowed("user@mail.com");
+
+        /* appel de la methode createAccount */
+
+        CreationCompte.createAccount("user@mail.com","password"); // user@mail.com se trouve dans la bdd de dbeaver
+        /* pour creer un compte, regarder de maniere specifique la ligne 4 dans le fichier CreationCompte.java , la whitelist*/
+
+        /* on met a jour l'administrateur */
+
+            User.updateUser(a,u);
+        /* on supprime un utilsateur
+
+
+         */
+
+        //User.deleteUser(u,a);
+
+
     }
+
+
+
+
+
+
 
 
     }
