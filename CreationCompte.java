@@ -1,8 +1,7 @@
 import javax.swing.*;
-import java.io.*;
 import java.util.*;
 public class CreationCompte {
-    private static final List<String> whitelist = Arrays.asList("example1@email.com", "example2@email.com", "example3@email.com");
+    private static final List<String> whitelist = Arrays.asList("example1@email.com", "example2@email.com", "example3@email.com","user@mail.com");
 
     public static boolean isEmailAllowed(String email) {
         // Verifier si l'email est au format exact
@@ -32,3 +31,4 @@ public class CreationCompte {
 
     }
 }
+
