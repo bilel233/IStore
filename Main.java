@@ -43,14 +43,14 @@ public class Main {
         avoir rentre l'eamil et le password
 
          */
-        boolean loginSucceesful = true;
+       // boolean loginSucceesful = true;
 
-        if (loginSucceesful){
-            JFrame frame = new JFrame ("Connexion reussie");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(300,200);
-            frame.setVisible(true);
-        }
+       // if (loginSucceesful){
+        //    JFrame frame = new JFrame ("Connexion reussie");
+        //    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //    frame.setSize(300,200);
+         //   frame.setVisible(true);
+      //  }
 // on implemente  la classe Login avec exception d'erreur
 
         Scanner sc = new Scanner(System.in);
@@ -88,8 +88,17 @@ public class Main {
 
         //User.deleteUser(u,a);
 
-
+        AccesInformation.acces();
     }
+
+
+
+
+
+
+
+
+
 
 
 
