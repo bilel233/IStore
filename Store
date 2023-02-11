@@ -1,0 +1,37 @@
+import java.util.ArrayList;
+import java.util.List;
+public class Store {
+    /* mise en place des attributs privees */
+    Inventaire inventaire;
+    /* on relie store a inventaire */
+    private List<Item> items = new ArrayList<>();
+    private String storeName;
+
+    public void Inventaire(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
+    }
+}
