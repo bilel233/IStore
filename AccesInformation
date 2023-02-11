@@ -1,0 +1,37 @@
+public class AccesInformation {
+    public static void acces() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Entrez l'ID de l'article que vous souhaitez rechercher :");
+        int articleID = sc.nextInt();
+        try {
+            // Connexion à la base de données
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:8889/istore",
+                    "root",
+                    ""
+            );
+            // Requête SQL pour récupérer les informations de l'article
+            PreparedStatement stmt = con.prepareStatement(
+                    "SELECT idProduits, titre, prix, quantite FROM  Produits WHERE idProduits = ?"
+            );
+            stmt.setInt(1, articleID);
+            ResultSet result = stmt.executeQuery();
+            if (result.next()) {
+                System.out.println("ID : " + result.getInt("idProduits"));
+                System.out.println("Nom : " + result.getString("titre"));
+                System.out.println("Prix : " + result.getFloat("prix"));
+                System.out.println("Quantité en stock : " + result.getInt("quantite"));
+            } else {
+                System.out.println("Aucun article trouvé avec l'ID " + articleID);
+            }
+            result.close();
+            stmt.close();
+            con.close();
+        }catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération des informations de l'article");
+            e.printStackTrace();
+        }
+    }
+
+
+}
