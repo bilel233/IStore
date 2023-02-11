@@ -1,20 +1,22 @@
 
+
 import javax.swing.*;
 public class SuccessfulLoginWindow {
     /* verifier si la connexion au compte a ete reussie */
     public static void main(String[] args )
     {
         boolean loginSucceesful = true;
-        
+
         if (loginSucceesful){
             JFrame frame = new JFrame ("Connexion reussie");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(300,200);
             frame.setVisible(true);
         }
-            
+
     }
 }
 /* on cree une fenetre qu affiche connexion reussie lorsque
 la variable loginSuccesfful est definue sur True
  */
+
