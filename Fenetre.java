@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 public class Fenetre extends JFrame {
 
@@ -9,6 +13,8 @@ public class Fenetre extends JFrame {
     private JTextField emailField;
     private JPasswordField passwordField;
     private JButton createButton;
+    private JButton redirectButton;
+
 
     public Fenetre() {
         setTitle("Creer un compte");
@@ -41,6 +47,18 @@ public class Fenetre extends JFrame {
         panel.add(passwordField, constraints);
 
         createButton = new JButton("Creer un compte");
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               // System.out.println("Bouton cliqué");
+                panel.setVisible(false);
+                JFrame frame2 = new JFrame("Page d'accueil");
+                frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame2.setSize(500, 500);
+                frame2.setVisible(true);
+
+            }
+        });
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.gridwidth = 2;
@@ -56,6 +74,15 @@ public class Fenetre extends JFrame {
         add(panel);
 
         setVisible(true);
+
+        JButton button1 = new JButton("user");
+
+        button1.setBounds(100, 100, 150, 50);
+        add(button1);
+
+        JButton button2 = new JButton("admin");
+        button2.setBounds(300, 100, 150, 50);
+        add(button2);
     }
 }
 
