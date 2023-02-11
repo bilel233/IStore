@@ -1,5 +1,6 @@
 
 import javax.swing.*;
+import java.util.Random;
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +11,8 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-        User u = new User(1,"user1@mail.com","user","password","utilisateur");
-        User a = new User(1,"user1@mail.com","user","password","administrateur");
+        User u = new User(1, "user1@mail.com", "user", "password", "utilisateur");
+        User a = new User(1, "user1@mail.com", "user", "password", "administrateur");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new Fenetre();
@@ -43,14 +44,14 @@ public class Main {
         avoir rentre l'eamil et le password
 
          */
-       // boolean loginSucceesful = true;
+        // boolean loginSucceesful = true;
 
-       // if (loginSucceesful){
+        // if (loginSucceesful){
         //    JFrame frame = new JFrame ("Connexion reussie");
         //    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //    frame.setSize(300,200);
-         //   frame.setVisible(true);
-      //  }
+        //   frame.setVisible(true);
+        //  }
 // on implemente  la classe Login avec exception d'erreur
 
         Scanner sc = new Scanner(System.in);
@@ -59,15 +60,15 @@ public class Main {
         System.out.println("Entrez votre mot de passe: ");
         String pass = sc.nextLine();
 
-       /* test de la fonction login */
-            Login.log();
+        /* test de la fonction login */
+        Login.log();
 
-            /* test de la fonction db */
-           UserDdb.db("user@mail.com","password");
+        /* test de la fonction db */
+        UserDdb.db("user@mail.com", "password");
 
 
-           /* hasshage du password */
-          Password.hashPassword("password");
+        /* hasshage du password */
+        Password.hashPassword("password");
 
         /* on verifie si l'email est autorisée */
 
@@ -75,12 +76,12 @@ public class Main {
 
         /* appel de la methode createAccount */
 
-        CreationCompte.createAccount("user@mail.com","password"); // user@mail.com se trouve dans la bdd de dbeaver
+        CreationCompte.createAccount("user@mail.com", "password"); // user@mail.com se trouve dans la bdd de dbeaver
         /* pour creer un compte, regarder de maniere specifique la ligne 4 dans le fichier CreationCompte.java , la whitelist*/
 
         /* on met a jour l'administrateur */
 
-            User.updateUser(a,u);
+        User.updateUser(a, u);
         /* on supprime un utilsateur
 
 
@@ -88,9 +89,73 @@ public class Main {
 
         //User.deleteUser(u,a);
 
-        AccesInformation.acces();
+        /* on recherche les informations stockees sur les marchandises */
+        for (int i = 0; i < 7; i++) {
+            AccesInformation.acces();
+
+        }
+        System.out.println("===============================================");
+        System.out.println("vous avez affiche toute les marchandises");
+
+        System.out.println("Sélectionnez une option:");
+        System.out.println("1. Ajouter des articles");
+        System.out.println("2. Retirer des articles");
+        System.out.println("3. Quitter");
+
+
+        while (true) {
+            System.out.println("Sélectionnez une option:");
+            System.out.println("1. Ajouter des articles");
+            System.out.println("2. Retirer des articles");
+            System.out.println("3. Quitter");
+            Scanner scan =new Scanner(System.in);
+            int option = scan.nextInt();
+            if (option == 3) {
+                break;
+            }
+
+            System.out.println("Entrez l'identifiant de l'article:");
+            int id = scan.nextInt();
+
+            System.out.println("Entrez le nom de l'article:");
+            String name = scan.nextLine();
+
+            System.out.println("Entrez la quantité:");
+            int quantity = scan.nextInt();
+
+            System.out.println("Entrez le prix:");
+            double  price = scan.nextDouble();
+
+            // Ajouter/retirer des articles en utilisant les informations entrées
+            // et en effectuant des mises à jour sur la base de données.
+
+            String query = "DELETE FROM Produits WHERE idProduits = ?";
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/istore", "root", "");
+                 PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setInt(1, id);
+                pst.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+            String que = "INSERT INTO Produits (idProduits, titre, prix, quantite) values (?, ?, ?, ?)";
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:8889/istore", "root", "");
+                 PreparedStatement pst = con.prepareStatement(que)) {
+                pst.setInt(1, id);
+                pst.setString(2, name);
+                pst.setDouble(3,price );
+                pst.setInt(4, quantity);
+                pst.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+
+            }
+            break;
+        }
+
+
     }
 
+}
 
 
 
@@ -107,5 +172,4 @@ public class Main {
 
 
 
-    }
 
